@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <vector>
+
 using namespace std;
 
 struct Account
@@ -41,8 +42,10 @@ public:
             return;
         }
         database[accN].balance -= amount;
+        
         string transaction = "Withdrawal of $" + to_string(amount);
         database[accN].transaction.push_back(transaction);
+        
         cout << "\nWithdrawal successful. New balance: \n$" << database[accN].balance << endl;
     }
 };
@@ -58,8 +61,10 @@ public:
             return;
         }
         database[accN].balance += amount;
+        
         string transaction = "Deposit of $" + to_string(amount);
         database[accN].transaction.push_back(transaction);
+        
         cout << "Deposit successful. New balance: \n$" << database[accN].balance << endl;
     }
 };
@@ -91,10 +96,13 @@ public:
         }
         database[accN1].balance -= amount;
         database[accN2].balance += amount;
+        
         string transaction1 = "Transfer of $" + to_string(amount) + " to Account " + accN2;
         string transaction2 = "Received transfer of $" + to_string(amount) + " from Account " + accN1;
+        
         database[accN1].transaction.push_back(transaction1);
         database[accN2].transaction.push_back(transaction2);
+        
         cout << "\nTransfer successful. New balance for Account " << accN1 << ": $" << database[accN1].balance << endl;
         cout << "New balance for Account " << accN2 << ": $\n"
              << database[accN2].balance << endl;
@@ -215,8 +223,10 @@ public:
                 {
                     string recipientAccN;
                     double transferAmount;
+                    
                     cout << "\nEnter the recipient's account number: ";
                     cin >> recipientAccN;
+                    
                     cout << "Enter the amount to transfer: ";
                     cin >> transferAmount;
                     Transfer::transfer(accN, recipientAccN, transferAmount, database);
@@ -271,7 +281,7 @@ public:
 
 void greetings()
 {
-    string line(41, '-'); // Creates a line of dashes
+    string line(41, '-'); 
 
     cout << "\n"
          << line << endl;
@@ -286,6 +296,7 @@ int main()
     ATM atm;
     greetings();
     string s1 = "#";
+    
     cout << "\nAlready a User: Y or N " << endl;
     cout << "ANS : ";
     cin >> s1;
@@ -299,13 +310,17 @@ int main()
         string accN = "#";
         string pin = "#";
         double amount = 0;
+        
         cout << "\nFor a New User \n";
         cout << "Enter Account Number/User ID : ";
         cin >> accN;
+        
         cout << "Enter 6 digit pin : ";
         cin >> pin;
+        
         cout << "Enter starting Balance : ";
         cin >> amount;
+        
         atm.addUser(accN, pin, amount);
         atm.run();
     }

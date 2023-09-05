@@ -1,5 +1,5 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 
@@ -15,10 +15,9 @@ struct Account
 class TransactionHistory
 {
 public:
-    static void showTransactionHistory(const string &accN, map<string, Account> &database)
+    static void showTransactionHistory(const string &accN, unordered_map<string, Account> &database)
     {
-        cout << "Transaction History for Account Number " << accN << " :\n"
-             << endl;
+        cout << "Transaction History for Account Number " << accN << " :\n" << endl;
         for (const string &transaction : database[accN].transaction)
         {
             cout << transaction << endl;
@@ -29,7 +28,7 @@ public:
 class Withdrawal
 {
 public:
-    static void withdraw(const string &accN, double amount, map<string, Account> &database)
+    static void withdraw(const string &accN, double amount, unordered_map<string, Account> &database)
     {
         if (amount <= 0)
         {
@@ -42,10 +41,8 @@ public:
             return;
         }
         database[accN].balance -= amount;
-        
         string transaction = "Withdrawal of $" + to_string(amount);
         database[accN].transaction.push_back(transaction);
-        
         cout << "\nWithdrawal successful. New balance: \n$" << database[accN].balance << endl;
     }
 };
@@ -53,7 +50,7 @@ public:
 class Deposit
 {
 public:
-    static void deposit(const string &accN, double amount, map<string, Account> &database)
+    static void deposit(const string &accN, double amount, unordered_map<string, Account> &database)
     {
         if (amount <= 0)
         {
@@ -64,7 +61,6 @@ public:
         
         string transaction = "Deposit of $" + to_string(amount);
         database[accN].transaction.push_back(transaction);
-        
         cout << "Deposit successful. New balance: \n$" << database[accN].balance << endl;
     }
 };
@@ -72,7 +68,7 @@ public:
 class Transfer
 {
 public:
-    static void transfer(const string &accN1, const string &accN2, double amount, map<string, Account> &database)
+    static void transfer(const string &accN1, const string &accN2, double amount, unordered_map<string, Account> &database)
     {
         if (amount <= 0)
         {
@@ -96,23 +92,22 @@ public:
         }
         database[accN1].balance -= amount;
         database[accN2].balance += amount;
-        
+
         string transaction1 = "Transfer of $" + to_string(amount) + " to Account " + accN2;
         string transaction2 = "Received transfer of $" + to_string(amount) + " from Account " + accN1;
-        
+       
         database[accN1].transaction.push_back(transaction1);
         database[accN2].transaction.push_back(transaction2);
-        
-        cout << "\nTransfer successful. New balance for Account " << accN1 << ": $" << database[accN1].balance << endl;
-        cout << "New balance for Account " << accN2 << ": $\n"
-             << database[accN2].balance << endl;
+       
+        cout << "\nTransfer successful. New balance for Account " << accN1 << ":\n$" << database[accN1].balance << endl;
+        cout << "New balance for Account " << accN2 << ":\n$" << database[accN2].balance << endl;
     }
 };
 
 class ATM
 {
 private:
-    map<string, Account> database;
+    unordered_map<string, Account> database;
 
 public:
     ATM()
@@ -128,6 +123,7 @@ public:
         database["1009"] = {"888888", 350.0, {}};
         database["1010"] = {"987650", 5000.0, {}};
     }
+
     void addUser(const string &UserID, const string &pin, const double &balance)
     {
         Account newUser;
@@ -144,7 +140,10 @@ public:
 
     bool validPin(const string &pin)
     {
-        int len = pin.length();
+        if (pin.length() != 6)
+        {
+            return false;
+        }
         for (char c : pin)
         {
             if (!isdigit(c))
@@ -152,10 +151,10 @@ public:
                 return false;
             }
         }
-        return len == 6;
+        return true;
     }
 
-    bool validAccn(const string &accN, map<string, Account> &database)
+    bool validAccn(const string &accN, unordered_map<string, Account> &database)
     {
         return database.count(accN) > 0;
     }
@@ -175,7 +174,6 @@ public:
             string accN;
             cout << "\nEnter Your Account Number: ";
             cin >> accN;
-            
             if (accN == "exit" || accN == "EXIT" || accN == "quit" || accN == "QUIT")
             {
                 break;
@@ -185,7 +183,6 @@ public:
                 cout << "\nAccount Number not found in the database. Please try again." << endl;
                 continue;
             }
-            
             string pin;
             cout << "Enter your 6-digit PIN: ";
             cin >> pin;
@@ -207,7 +204,6 @@ public:
                 cout << "3. DEPOSIT" << endl;
                 cout << "4. TRANSFER" << endl;
                 cout << "5. QUIT\n" << endl;
-
                 cout << "Enter no. acc to your choice of Action : ";
                 string action;
                 cin >> action;
@@ -217,10 +213,8 @@ public:
                 {
                     string recipientAccN;
                     double transferAmount;
-                    
                     cout << "\nEnter the recipient's account number: ";
                     cin >> recipientAccN;
-                    
                     cout << "Enter the amount to transfer: ";
                     cin >> transferAmount;
                     Transfer::transfer(accN, recipientAccN, transferAmount, database);
@@ -276,19 +270,17 @@ public:
 void greetings()
 {
     string line(41, '-'); 
-
-    cout << "\n"
-         << line << endl;
+cout << "\n" << line << endl;
     cout << "|                                       |" << endl;
     cout << "|          Welcome to the ATM!          |" << endl;
     cout << "|                                       |" << endl;
     cout << line << endl;
 }
+
 void endRegards()
 {
-    string line(41, '-'); // Creates a line of dashes
-
-    cout << "\n" << line << endl;
+    string line(41, '-'); 
+cout << "\n" << line << endl;
     cout << "|                                       |" << endl;
     cout << "|       Thanks for using the ATM!       |" << endl;
     cout << "|                                       |" << endl;
@@ -301,11 +293,10 @@ int main()
     greetings();
     atm.run();
     endRegards();
-    
-//Bank Functiionality 
-    
+
+    // Bank functiinality
+
     // string s1 = "#";
-    
     // cout << "\nAlready a User: Y or N " << endl;
     // cout << "ANS : ";
     // cin >> s1;
@@ -319,17 +310,13 @@ int main()
     //     string accN = "#";
     //     string pin = "#";
     //     double amount = 0;
-        
     //     cout << "\nFor a New User \n";
     //     cout << "Enter Account Number/User ID : ";
     //     cin >> accN;
-        
     //     cout << "Enter 6 digit pin : ";
     //     cin >> pin;
-        
     //     cout << "Enter starting Balance : ";
     //     cin >> amount;
-        
     //     atm.addUser(accN, pin, amount);
     //     atm.run();
     // }

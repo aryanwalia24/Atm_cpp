@@ -290,12 +290,24 @@ void greetings()
     cout << "|                                       |" << endl;
     cout << line << endl;
 }
+void endRegards()
+{
+    string line(41, '-'); // Creates a line of dashes
+
+    cout << "\n"
+         << line << endl;
+    cout << "|                                       |" << endl;
+    cout << "|       Thanks for using the ATM!       |" << endl;
+    cout << "|                                       |" << endl;
+    cout << line << endl;
+}
 
 int main()
 {
     ATM atm;
     greetings();
     atm.run();
+    endRegards();
 //Bank Functiionality 
     // string s1 = "#";
     

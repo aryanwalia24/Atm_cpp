@@ -295,38 +295,40 @@ int main()
 {
     ATM atm;
     greetings();
-    string s1 = "#";
+    atm.run();
+//Bank Functiionality 
+    // string s1 = "#";
     
-    cout << "\nAlready a User: Y or N " << endl;
-    cout << "ANS : ";
-    cin >> s1;
+    // cout << "\nAlready a User: Y or N " << endl;
+    // cout << "ANS : ";
+    // cin >> s1;
 
-    if (s1 == "y" || s1 == "Y")
-    {
-        atm.run();
-    }
-    else if (s1 == "n" || s1 == "N")
-    {
-        string accN = "#";
-        string pin = "#";
-        double amount = 0;
+    // if (s1 == "y" || s1 == "Y")
+    // {
+    //     atm.run();
+    // }
+    // else if (s1 == "n" || s1 == "N")
+    // {
+    //     string accN = "#";
+    //     string pin = "#";
+    //     double amount = 0;
         
-        cout << "\nFor a New User \n";
-        cout << "Enter Account Number/User ID : ";
-        cin >> accN;
+    //     cout << "\nFor a New User \n";
+    //     cout << "Enter Account Number/User ID : ";
+    //     cin >> accN;
         
-        cout << "Enter 6 digit pin : ";
-        cin >> pin;
+    //     cout << "Enter 6 digit pin : ";
+    //     cin >> pin;
         
-        cout << "Enter starting Balance : ";
-        cin >> amount;
+    //     cout << "Enter starting Balance : ";
+    //     cin >> amount;
         
-        atm.addUser(accN, pin, amount);
-        atm.run();
-    }
-    else
-    {
-        cout << "Invalid Choice!" << endl;
-    }
+    //     atm.addUser(accN, pin, amount);
+    //     atm.run();
+    // }
+    // else
+    // {
+    //     cout << "Invalid Choice!" << endl;
+    // }
     return 0;
 }

@@ -138,14 +138,8 @@ public:
 
     bool userAuthenticator(const string &userId, const string &pin)
     {
-        if (database.count(userId) > 0)
-        {
-            if (database[userId].pin == pin)
-            {
-                return true;
-            }
-        }
-        return false;
+        auto it = database.find(userId);
+        return it != database.end() && it->second.pin == pin;
     }
 
     bool validPin(const string &pin)
@@ -181,6 +175,7 @@ public:
             string accN;
             cout << "\nEnter Your Account Number: ";
             cin >> accN;
+            
             if (accN == "exit" || accN == "EXIT" || accN == "quit" || accN == "QUIT")
             {
                 break;
@@ -190,6 +185,7 @@ public:
                 cout << "\nAccount Number not found in the database. Please try again." << endl;
                 continue;
             }
+            
             string pin;
             cout << "Enter your 6-digit PIN: ";
             cin >> pin;
@@ -204,15 +200,13 @@ public:
             }
             if (userAuthenticator(accN, pin))
             {
-                cout << "\n--------> Access granted <--------\n"
-                     << endl;
+                cout << "\n--------> Access granted <--------\n" << endl;
                 cout << "Choice of Actions :" << endl;
                 cout << "1. TRANSACTIONS HISTORY" << endl;
                 cout << "2. WITHDRAW" << endl;
                 cout << "3. DEPOSIT" << endl;
                 cout << "4. TRANSFER" << endl;
-                cout << "5. QUIT\n"
-                     << endl;
+                cout << "5. QUIT\n" << endl;
 
                 cout << "Enter no. acc to your choice of Action : ";
                 string action;
@@ -294,8 +288,7 @@ void endRegards()
 {
     string line(41, '-'); // Creates a line of dashes
 
-    cout << "\n"
-         << line << endl;
+    cout << "\n" << line << endl;
     cout << "|                                       |" << endl;
     cout << "|       Thanks for using the ATM!       |" << endl;
     cout << "|                                       |" << endl;
@@ -308,7 +301,9 @@ int main()
     greetings();
     atm.run();
     endRegards();
+    
 //Bank Functiionality 
+    
     // string s1 = "#";
     
     // cout << "\nAlready a User: Y or N " << endl;
